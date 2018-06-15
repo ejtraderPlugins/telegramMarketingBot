@@ -1,0 +1,18 @@
+{
+  "host": "https://47a975e1.ngrok.io",
+  "port": 3004,
+  "db": {
+    "url": "mongodb://0.0.0.0/botjet"
+  },
+  "credentials": {
+    "apiToken": "560311453:AAGagomUU2FfeU5qcpUNfIP7J5PX4wdkF-M",
+    "name": "mediumbt_bot"
+  },
+  "API": {
+    "webhookpath": "/webhook",
+    "addWebhook": "https://api.telegram.org/bot{token}/setWebhook",
+    "deleteWebhook": "https://api.telegram.org/bot{token}/deleteWebhook",
+    "sendMessage": "https://api.telegram.org/bot{token}/sendMessage",
+    "sendTypingIndication": "https://api.telegram.org/bot{token}/sendChatAction"
+  }
+}
