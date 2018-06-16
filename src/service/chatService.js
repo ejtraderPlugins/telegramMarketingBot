@@ -4,6 +4,8 @@ var telegramuserModel = require('../db/model/TelegramUserModel');
 var telegramAPI = require('../telegramAPI').getInstance();
 var Fuse = require('fuse.js');
 var _ = require('lodash');
+const request = require('request-promise');
+var template = require('url-template');
 
 function ChatService(opts) {
     this.opts = opts;
@@ -52,20 +54,14 @@ ChatService.prototype.run = function () {
     } else if (self.context.askedRule === 'askedFacebook') {
         self.opts.user.profileData.facebookUserName = self.opts.message;
         return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
-            return self.checkFacebookFollowers().then(function (success) {
-                if(success) {
-                    return self.gotoNextRule();
-                } else {
-                    return self.askAgain();
-                }
-            });
+            return self.gotoNextRule();
         });
     } else if (self.context.askedRule === 'askedTwitter') {
         self.opts.user.profileData.twitterUserName = self.opts.message;
         return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
             return self.checkTwitterFollowers().then(function (success) {
-                if(success) {
-                    return self.gotoNextRule();
+                if (success) {
+
                 } else {
                     return self.askAgain();
                 }
@@ -74,7 +70,7 @@ ChatService.prototype.run = function () {
     } else if (self.context.askedRule === 'joinTelegramGroup') {
         return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
             return self.checkTelegramGroup().then(function (success) {
-                if(success) {
+                if (success) {
                     return self.gotoNextRule();
                 } else {
                     return self.askAgain();
@@ -84,15 +80,15 @@ ChatService.prototype.run = function () {
     } else {
         var choosenRule = null;
         _.forOwn(config.rules, function (value, key) {
-            if(value.keywords && value.keywords.length > 0) {
+            if (value.keywords && value.keywords.length > 0) {
                 var fuzzy = fuzzySearch(value.keywords, self.opts.message);
-                if(fuzzy) {
+                if (fuzzy) {
                     choosenRule = key;
                 }
             }
         });
-        if(choosenRule) {
-            if(!self.context.language) {
+        if (choosenRule) {
+            if (!self.context.language) {
                 self.context.language = 'en';
             }
             self.context.askedRule = choosenRule;
@@ -120,46 +116,106 @@ ChatService.prototype.gotoNextRule = function () {
 
     var nextCndMatch = fuzzySearch(_.keys(nextConditions), self.opts.message);
     var nextRule = null;
-    if(!nextConditions) {
+    if (!nextConditions) {
         return;
     }
-    if(!self.opts.message && nextConditions['default']) {
+    if (!self.opts.message && nextConditions['default']) {
         nextRule = nextConditions['default'];
     } else if (nextCndMatch) {
         nextRule = nextConditions[nextCndMatch];
-    } else if(nextConditions['default']) {
+    } else if (nextConditions['default']) {
         nextRule = nextConditions['default'];
-    } else if(self.opts.message) {
+    } else if (self.opts.message) {
         nextRule = self.context.askedRule;
     }
-    if(nextRule) {
+    if (nextRule) {
         self.context.askedRule = nextRule;
         telegramuserModel.updateContext(self.opts.user.userId, self.context);
-        return telegramAPI.sendMessage(config.rules[nextRule].message[self.context.language], self.opts.user).then(function () {
+        var message = config.rules[nextRule].message[self.context.language];
+        if (nextRule === 'getReferral') {
+            message.text = template.parse(message).expand({referral_link: ' https://t.me/MedipediaInviteBot?start=' + self.opts.user.userId});
+        }
+        return telegramAPI.sendMessage(message, self.opts.user).then(function () {
             self.opts.message = null;
             self.gotoNextRule();
         });
     }
 };
 
-ChatService.prototype.checkFacebookFollowers = function () {
+ChatService.prototype.checkTwitterFollowers = function (cursor) {
     var self = this;
-    self.opts.message = 'success';
-    return Promise.resolve('xyz');
-};
+    if (!cursor) {
+        cursor = -1;
+    }
+    var reqOptions = {
+        url: config.twitter.get_followers_api + "?cursor=" + cursor,
+        headers: {
+          "Authorization": config.twitter.token
+        },
+        method: "get"
+    };
 
-ChatService.prototype.checkTwitterFollowers = function () {
-    var self = this;
-    self.opts.message = 'success';
-    return Promise.resolve('xyz');
+    return request(reqOptions).then(function (res) {
+        if (!res.users || res.users.length < 1) {
+            return Promise.resolve(true);
+        } else {
+            var userFound = false;
+            _.map(res.users, function (user) {
+                if (user.screen_name.toLowerCase() === self.opts.message) {
+                    userFound = true;
+                    return false;
+                }
+            });
+            if (userFound) {
+                return Promise.resolve(true);
+            } else if (res.next_cursor) {
+                return self.checkTwitterFollowers(res.next_cursor);
+            } else {
+                return Promise.resolve(true);
+            }
+        }
+    }, function (err) {
+        console.error(err.stack);
+        return Promise.resolve(true);
+    })
+        .catch(function (err) {
+            console.error(err.stack);
+            return Promise.resolve(true);
+        });
 };
 
 ChatService.prototype.checkTelegramGroup = function () {
-    return Promise.resolve('xyz');
+    var self = this;
+    var reqOptions = {
+        method: 'GET',
+        url: template.parse(config.API.getChatMember).expand({
+            token: config.credentials.apiToken,
+            groupId: config.credentials.groupId,
+            userId: self.opts.user.userId
+        })
+    };
+
+    return request(reqOptions).then(function (res) {
+        try {
+            res = JSON.parse(res);
+        } catch(e) {
+        }
+        if(res.ok && res.result && res.result.user && res.result.user.id) {
+            return Promise.resolve(true);
+        }
+        return Promise.resolve();
+    }, function (err) {
+        console.error(err.stack);
+        return Promise.resolve();
+    })
+        .catch(function (err) {
+            console.error(err.stack);
+            return Promise.resolve();
+        });
 };
 
 function fuzzySearch(keys, keyword) {
-    if(!keyword) {
+    if (!keyword) {
         return;
     }
     var fuseOptions = {
@@ -183,7 +239,7 @@ function fuzzySearch(keys, keyword) {
 
     var results = new Fuse(keyObjs, fuseOptions).search(keyword);
 
-    if(results.length > 0) {
+    if (results.length > 0) {
         return results[0].key;
     }
     return null;

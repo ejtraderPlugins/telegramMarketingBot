@@ -37,6 +37,10 @@ app.post('/webhook', function (req, res) {
         profileData = event.message.from;
     }
 
+    if(!message) {
+        return res.sendStatus(200);
+    }
+
     return telegramUserModel.createUpdateUser({
         userId: senderId,
         profileData: profileData

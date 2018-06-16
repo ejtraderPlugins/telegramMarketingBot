@@ -1,19 +1,29 @@
 {
-  "host": "https://b51ce92d.ngrok.io",
+  "host": "https://e5e4faa6.ngrok.io",
   "port": 3004,
   "db": {
     "url": "mongodb://0.0.0.0/botjet"
   },
   "credentials": {
     "apiToken": "560311453:AAGagomUU2FfeU5qcpUNfIP7J5PX4wdkF-M",
-    "name": "mediumbt_bot"
+    "name": "mediumbt_bot",
+    "groupId": "262622989"
+  },
+  "facebook": {
+    "page_id": "",
+    "pageToken": ""
+  },
+  "twitter": {
+    "get_followers_api": "https://api.twitter.com/1.1/followers/list.json",
+    "token": "XYZ"
   },
   "API": {
     "webhookpath": "/webhook",
     "addWebhook": "https://api.telegram.org/bot{token}/setWebhook",
     "deleteWebhook": "https://api.telegram.org/bot{token}/deleteWebhook",
     "sendMessage": "https://api.telegram.org/bot{token}/sendMessage",
-    "sendTypingIndication": "https://api.telegram.org/bot{token}/sendChatAction"
+    "sendTypingIndication": "https://api.telegram.org/bot{token}/sendChatAction",
+    "getChatMember": "https://api.telegram.org/bot{token}/getChatMember?chat_id=-{groupId}&user_id={userId}"
   },
   "languages": [{
     "keywords": ["english", "en", "eng"],
@@ -57,7 +67,7 @@
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "Blockchain 추천 프로그램에서 Medipedia에 오신 것을 환영합니다!<br/>초대하고 초대 한 각 친구에게 500 MEP 토큰, 최대 $ $ 상당의 토큰 $$$$ 1 인당 100 명의 친구에게 제한된 초대장을드립니다.<br/><br/>",
+          "text": "Blockchain 추천 프로그램에서 Medipedia에 오신 것을 환영합니다!\n초대하고 초대 한 각 친구에게 500 MEP 토큰, 최대 $ $ 상당의 토큰 $$$$ 1 인당 100 명의 친구에게 제한된 초대장을드립니다.\n\n",
           "parse_mode": "HTML"
         }
       },
@@ -113,7 +123,7 @@
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.<br/>",
+          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.\n",
           "parse_mode": "HTML"
         }
       },
@@ -185,7 +195,7 @@
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.<br/>",
+          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.\n",
           "parse_mode": "HTML"
         }
       },
@@ -257,7 +267,7 @@
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.<br/>",
+          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.\n",
           "parse_mode": "HTML"
         }
       },
@@ -313,7 +323,7 @@
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.<br/>",
+          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.\n",
           "parse_mode": "HTML"
         }
       },
@@ -387,11 +397,11 @@
     "getReferral": {
       "message": {
         "en": {
-          "text": "Excellent! Here’s your link: https://t.me/MedipediaInviteBot?start=3j124-8sdljalkh1408\n\nShare it on Facebook, Twitter and wherever else you can to earn rewards! Every friend that joins adds another 100 MEP to your total",
+          "text": "Excellent! Here’s your link: {referral_link}\n\nShare it on Facebook, Twitter and wherever else you can to earn rewards! Every friend that joins adds another 100 MEP to your total",
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "우수한! 여기에 귀하의 링크가 있습니다 : https://t.me/MedipediaInviteBot?start=3j124-8sdljalkh1408\n\n 페이스 북, 트위터 그리고 다른 곳에서 보상을 얻을 수있는 곳에서 공유하십시오! 조인하는 모든 친구가 합계에 100 MEP를 추가합니다.",
+          "text": "우수한! 여기에 귀하의 링크가 있습니다 : {referral_link}\n\n 페이스 북, 트위터 그리고 다른 곳에서 보상을 얻을 수있는 곳에서 공유하십시오! 조인하는 모든 친구가 합계에 100 MEP를 추가합니다.",
           "parse_mode": "HTML"
         }
       },
