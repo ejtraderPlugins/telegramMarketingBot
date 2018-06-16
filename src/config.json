@@ -95,7 +95,7 @@
           }
         }
       },
-      "keywords": ["join telegram", "telegram group", "join telegram group", "telegram"],
+      "keywords": ["telegram"],
       "next": {
         "joined": "joinTelegramGroupSuccess"
       }
@@ -151,7 +151,7 @@
           }
         }
       },
-      "keywords": ["join twitter", "twitter", "follow twitter"],
+      "keywords": ["twitter"],
       "next": {
         "followed": "followTwitterSuccess"
       }
@@ -207,7 +207,7 @@
           }
         }
       },
-      "keywords": ["join facebook", "facebook", "follow facebook", "like facebook"],
+      "keywords": ["facebook"],
       "next": {
         "followed": "followFacebookSuccess"
       }
@@ -263,7 +263,7 @@
           }
         }
       },
-      "keywords": ["join website", "medipedia", "join medipedia"],
+      "keywords": ["medipedia"],
       "next": {
         "joined": "joinSiteSuccess"
       }
@@ -357,7 +357,7 @@
           "parse_mode": "HTML"
         }
       },
-      "keywords": ["get_referral_link", "referral link", "get referral", "referral link"],
+      "keywords": ["get_referral_link"],
       "end_rule": true
     }
   }
