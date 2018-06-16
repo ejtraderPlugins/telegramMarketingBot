@@ -22,6 +22,12 @@
     "keywords": ["korean", "ko", "kor"],
     "key": "ko"
   }],
+  "messages": {
+    "SORRY_FOLLOW": {
+      "en": "Sorry! I don't find that you are following us. ",
+      "ko": "죄송합니다! 나는 당신이 우리를 따르고 있다는 것을 알지 못합니다."
+    }
+  },
   "rules": {
     "languageSelection": {
       "message": {
@@ -153,7 +159,23 @@
       },
       "keywords": ["twitter"],
       "next": {
-        "followed": "followTwitterSuccess"
+        "followed": "askedTwitter"
+      }
+    },
+    "askedTwitter": {
+      "message": {
+        "en": {
+          "text": "Please provide your twitter username for verification.",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "확인을 위해 Twitter 사용자 이름을 입력하십시오.",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": [],
+      "next": {
+        "success": "followTwitterSuccess"
       }
     },
     "followTwitterSuccess": {
@@ -209,7 +231,23 @@
       },
       "keywords": ["facebook"],
       "next": {
-        "followed": "followFacebookSuccess"
+        "followed": "askedFacebook"
+      }
+    },
+    "askedFacebook": {
+      "message": {
+        "en": {
+          "text": "Please provide your facebook username for verification.",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "확인을 위해 페이스 북 사용자 이름을 입력하십시오.",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": [],
+      "next": {
+        "success": "followFacebookSuccess"
       }
     },
     "followFacebookSuccess": {

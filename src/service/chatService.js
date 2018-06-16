@@ -49,6 +49,38 @@ ChatService.prototype.run = function () {
         return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
             return self.gotoNextRule();
         });
+    } else if (self.context.askedRule === 'askedFacebook') {
+        self.opts.user.profileData.facebookUserName = self.opts.message;
+        return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
+            return self.checkFacebookFollowers().then(function (success) {
+                if(success) {
+                    return self.gotoNextRule();
+                } else {
+                    return self.askAgain();
+                }
+            });
+        });
+    } else if (self.context.askedRule === 'askedTwitter') {
+        self.opts.user.profileData.twitterUserName = self.opts.message;
+        return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
+            return self.checkTwitterFollowers().then(function (success) {
+                if(success) {
+                    return self.gotoNextRule();
+                } else {
+                    return self.askAgain();
+                }
+            });
+        });
+    } else if (self.context.askedRule === 'joinTelegramGroup') {
+        return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
+            return self.checkTelegramGroup().then(function (success) {
+                if(success) {
+                    return self.gotoNextRule();
+                } else {
+                    return self.askAgain();
+                }
+            });
+        });
     } else {
         var choosenRule = null;
         _.forOwn(config.rules, function (value, key) {
@@ -65,15 +97,20 @@ ChatService.prototype.run = function () {
             }
             self.context.askedRule = choosenRule;
             telegramuserModel.updateContext(self.opts.user.userId, self.context);
-            return telegramAPI.sendMessage(config.rules[choosenRule].message[self.context.language], self.opts.user).then(function () {
-                self.opts.message = null;
-                self.gotoNextRule();
-            });
+            return telegramAPI.sendMessage(config.rules[choosenRule].message[self.context.language], self.opts.user);
         }
         return self.gotoNextRule();
     }
 
 
+};
+
+ChatService.prototype.askAgain = function () {
+    var self = this;
+
+    var message = _.clone(config.rules[self.context.askedRule].message[self.context.language]);
+    message.text = config.messages.SORRY_FOLLOW[self.context.language] + "\n" + message.text;
+    return telegramAPI.sendMessage(message, self.opts.user);
 };
 
 ChatService.prototype.gotoNextRule = function () {
@@ -103,6 +140,22 @@ ChatService.prototype.gotoNextRule = function () {
             self.gotoNextRule();
         });
     }
+};
+
+ChatService.prototype.checkFacebookFollowers = function () {
+    var self = this;
+    self.opts.message = 'success';
+    return Promise.resolve('xyz');
+};
+
+ChatService.prototype.checkTwitterFollowers = function () {
+    var self = this;
+    self.opts.message = 'success';
+    return Promise.resolve('xyz');
+};
+
+ChatService.prototype.checkTelegramGroup = function () {
+    return Promise.resolve('xyz');
 };
 
 function fuzzySearch(keys, keyword) {
