@@ -49,11 +49,13 @@ ChatService.prototype.run = function () {
     } else if (self.context.askedRule === 'walletAddress') {
         self.opts.user.profileData.walletAddress = self.opts.message;
         return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
+            self.opts.message = "success";
             return self.gotoNextRule();
         });
     } else if (self.context.askedRule === 'askedFacebook') {
         self.opts.user.profileData.facebookUserName = self.opts.message;
         return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
+            self.opts.message = 'success';
             return self.gotoNextRule();
         });
     } else if (self.context.askedRule === 'askedTwitter') {
@@ -61,7 +63,7 @@ ChatService.prototype.run = function () {
         return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
             return self.checkTwitterFollowers().then(function (success) {
                 if (success) {
-
+                    return self.gotoNextRule();
                 } else {
                     return self.askAgain();
                 }
@@ -92,8 +94,12 @@ ChatService.prototype.run = function () {
                 self.context.language = 'en';
             }
             self.context.askedRule = choosenRule;
+            var message = config.rules[choosenRule].message[self.context.language];
+            if (choosenRule === 'getReferral') {
+                message.text = message.text.replace(/{referral_link}/g,'https://t.me/MedipediaInviteBot?start=' + self.opts.user.userId);
+            }
             telegramuserModel.updateContext(self.opts.user.userId, self.context);
-            return telegramAPI.sendMessage(config.rules[choosenRule].message[self.context.language], self.opts.user);
+            return telegramAPI.sendMessage(message, self.opts.user);
         }
         return self.gotoNextRule();
     }
@@ -133,7 +139,7 @@ ChatService.prototype.gotoNextRule = function () {
         telegramuserModel.updateContext(self.opts.user.userId, self.context);
         var message = config.rules[nextRule].message[self.context.language];
         if (nextRule === 'getReferral') {
-            message.text = template.parse(message).expand({referral_link: ' https://t.me/MedipediaInviteBot?start=' + self.opts.user.userId});
+            message.text = message.text.replace(/{referral_link}/g,'https://t.me/MedipediaInviteBot?start=' + self.opts.user.userId);
         }
         return telegramAPI.sendMessage(message, self.opts.user).then(function () {
             self.opts.message = null;
@@ -144,6 +150,8 @@ ChatService.prototype.gotoNextRule = function () {
 
 ChatService.prototype.checkTwitterFollowers = function (cursor) {
     var self = this;
+    self.opts.message = 'success';
+    return Promise.resolve(true);
     if (!cursor) {
         cursor = -1;
     }

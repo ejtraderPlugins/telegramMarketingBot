@@ -345,7 +345,7 @@
       },
       "keywords": [],
       "next": {
-        "default": "walletAddressSuccess"
+        "success": "walletAddressSuccess"
       }
     },
     "walletAddressSuccess": {
