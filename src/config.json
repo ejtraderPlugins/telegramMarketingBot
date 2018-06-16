@@ -1,5 +1,5 @@
 {
-  "host": "https://47a975e1.ngrok.io",
+  "host": "https://b51ce92d.ngrok.io",
   "port": 3004,
   "db": {
     "url": "mongodb://0.0.0.0/botjet"
@@ -14,5 +14,351 @@
     "deleteWebhook": "https://api.telegram.org/bot{token}/deleteWebhook",
     "sendMessage": "https://api.telegram.org/bot{token}/sendMessage",
     "sendTypingIndication": "https://api.telegram.org/bot{token}/sendChatAction"
+  },
+  "languages": [{
+    "keywords": ["english", "en", "eng"],
+    "key": "en"
+  },{
+    "keywords": ["korean", "ko", "kor"],
+    "key": "ko"
+  }],
+  "rules": {
+    "languageSelection": {
+      "message": {
+        "text": "Hi 😀, I'm Mediapedia Referral Bot. Join and Earn tokens. Before proceeding further please choose your language 🌍",
+        "reply_markup": {
+          "inline_keyboard": [
+            [{
+              "text": "English 🇺🇸",
+              "callback_data": "en"
+            }],
+            [{
+              "text": "Korea 🇰🇷",
+              "callback_data": "ko"
+            }]
+          ]
+        }
+      },
+      "keywords": ["start", "restart", "change language", "cancel", "reset"],
+      "next": {
+        "onSelection": "languageSelectionRead"
+      }
+    },
+    "languageSelectionRead": {
+      "message": {
+        "en": {
+          "text": "Welcome to <b>Medipedia</b> on the blockchain referral program!\nJoin and earn <b>500 MEP</b> tokens for each friend you invite, up to 100$ worth of tokens 💰. \n\n <i>Invitation limited to 100 friends per person.</i>\n\n",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "Blockchain 추천 프로그램에서 Medipedia에 오신 것을 환영합니다!<br/>초대하고 초대 한 각 친구에게 500 MEP 토큰, 최대 $ $ 상당의 토큰 $$$$ 1 인당 100 명의 친구에게 제한된 초대장을드립니다.<br/><br/>",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": ["hi", "hello", "help"],
+      "next": {
+        "default": "joinTelegramGroup"
+      }
+    },
+    "joinTelegramGroup": {
+      "message": {
+        "en": {
+          "text": "Join our <b>Telegram</b> group and earn 100 MEP tokens now.",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "Join our Telegram group",
+                "url": "https://web.telegram.org/#/im?p=@BotFather"
+              }],
+              [{
+                "text": "I Joined",
+                "callback_data": "joined"
+              }]
+            ]
+          }
+        },
+        "ko": {
+          "text": "<b>Telegram</b> 그룹에 가입하여 100 개의 MEP 토큰을 획득하십시오.",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "우리의 전보 그룹에 가입하십시오",
+                "url": "https://web.telegram.org/#/im?p=@BotFather"
+              }],
+              [{
+                "text": "난 가입 했어요",
+                "callback_data": "joined"
+              }]
+            ]
+          }
+        }
+      },
+      "keywords": ["join telegram", "telegram group", "join telegram group", "telegram"],
+      "next": {
+        "joined": "joinTelegramGroupSuccess"
+      }
+    },
+    "joinTelegramGroupSuccess": {
+      "message": {
+        "en": {
+          "text": "<b>Congratulations 🎊</b>.\nYou have earned <b>100 MEP</b> tokens.",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.<br/>",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": [],
+      "next": {
+        "default": "followTwitter"
+      }
+    },
+    "followTwitter": {
+      "message": {
+        "en": {
+          "text": "Now, follow us on <b>Twitter</b> and earn more tokens.",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "Follow our Twitter",
+                "url": "https://twitter.com/Medipedia_io"
+              }],
+              [{
+                "text": "I followed",
+                "callback_data": "followed"
+              }]
+            ]
+          }
+        },
+        "ko": {
+          "text": "이제 <b> Twitter </b>를 방문하여 더 많은 토큰을 얻으십시오.",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "우리의 트위터 따라",
+                "url": "https://twitter.com/Medipedia_io"
+              }],
+              [{
+                "text": "나는 따라 갔다.",
+                "callback_data": "followed"
+              }]
+            ]
+          }
+        }
+      },
+      "keywords": ["join twitter", "twitter", "follow twitter"],
+      "next": {
+        "followed": "followTwitterSuccess"
+      }
+    },
+    "followTwitterSuccess": {
+      "message": {
+        "en": {
+          "text": "<b>Great</b>.\nYou have earned another <b>100 MEP</b> tokens.",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.<br/>",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": [],
+      "next": {
+        "default": "followFacebook"
+      }
+    },
+    "followFacebook": {
+      "message": {
+        "en": {
+          "text": "Now, follow us on <b>Facebook</b> and earn more tokens.",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "Follow our Facebook Page",
+                "url": "https://facebook.com/Medipedia_io"
+              }],
+              [{
+                "text": "I followed",
+                "callback_data": "followed"
+              }]
+            ]
+          }
+        },
+        "ko": {
+          "text": "이제 <b> Facebook </b>를 방문하여 더 많은 토큰을 얻으십시오.",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "우리의 Facebook 페이지를 따르십시오",
+                "url": "https://facebook.com/Medipedia_io"
+              }],
+              [{
+                "text": "나는 따라 갔다.",
+                "callback_data": "followed"
+              }]
+            ]
+          }
+        }
+      },
+      "keywords": ["join facebook", "facebook", "follow facebook", "like facebook"],
+      "next": {
+        "followed": "followFacebookSuccess"
+      }
+    },
+    "followFacebookSuccess": {
+      "message": {
+        "en": {
+          "text": "<b>Great</b>.\nYou have earned another <b>100 MEP</b> tokens.",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.<br/>",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": [],
+      "next": {
+        "default": "joinSite"
+      }
+    },
+    "joinSite": {
+      "message": {
+        "en": {
+          "text": "Next, Join <b>Medipedia</b> website",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "Join our website",
+                "url": "http://medipedia.io/membership/signup/"
+              }],
+              [{
+                "text": "I joined",
+                "callback_data": "joined"
+              }]
+            ]
+          }
+        },
+        "ko": {
+          "text": "다음으로 <b> Medipedia </b> 웹 사이트에 가입하십시오.",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "웹 사이트 가입",
+                "url": "http://medipedia.io/membership/signup/"
+              }],
+              [{
+                "text": "난 가입 했어요",
+                "callback_data": "joined"
+              }]
+            ]
+          }
+        }
+      },
+      "keywords": ["join website", "medipedia", "join medipedia"],
+      "next": {
+        "joined": "joinSiteSuccess"
+      }
+    },
+    "joinSiteSuccess": {
+      "message": {
+        "en": {
+          "text": "<b>Great</b>.\nYou have earned another <b>100 MEP</b> tokens.",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.<br/>",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": [],
+      "next": {
+        "default": "walletAddress"
+      }
+    },
+    "walletAddress": {
+      "message": {
+        "en": {
+          "text": "Please provide Ethereum wallet address.",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "Ethereum 지갑 주소를 입력하십시오.",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": [],
+      "next": {
+        "default": "walletAddressSuccess"
+      }
+    },
+    "walletAddressSuccess": {
+      "message": {
+        "en": {
+          "text": "Good job! You’ve earned 400 MEP tokens",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "잘 했어! 400 MEP 토큰을 받았습니다.",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": [],
+      "next": {
+        "default": "askReferral"
+      }
+    },
+    "askReferral": {
+      "message": {
+        "en": {
+          "text": "Finally! Click on below button to get your referral link",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "Get my referral link",
+                "callback_data": "getReferral"
+              }]
+            ]
+          }
+        },
+        "ko": {
+          "text": "마침내! 추천 링크를 받으려면 아래 버튼을 클릭하십시오.",
+          "reply_markup": {
+            "inline_keyboard": [
+              [{
+                "text": "내 추천 링크 가져 오기",
+                "callback_data": "getReferral"
+              }]
+            ]
+          }
+        }
+      },
+      "keywords": [],
+      "next": {
+        "getReferral": "getReferral"
+      }
+    },
+    "getReferral": {
+      "message": {
+        "en": {
+          "text": "Excellent! Here’s your link: https://t.me/MedipediaInviteBot?start=3j124-8sdljalkh1408\n\nShare it on Facebook, Twitter and wherever else you can to earn rewards! Every friend that joins adds another 100 MEP to your total",
+          "parse_mode": "HTML"
+        },
+        "ko": {
+          "text": "우수한! 여기에 귀하의 링크가 있습니다 : https://t.me/MedipediaInviteBot?start=3j124-8sdljalkh1408\n\n 페이스 북, 트위터 그리고 다른 곳에서 보상을 얻을 수있는 곳에서 공유하십시오! 조인하는 모든 친구가 합계에 100 MEP를 추가합니다.",
+          "parse_mode": "HTML"
+        }
+      },
+      "keywords": ["get_referral_link", "referral link", "get referral", "referral link"],
+      "end_rule": true
+    }
   }
 }

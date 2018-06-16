@@ -59,9 +59,9 @@ function createUpdateUser(data) {
     });
 }
 
-function updateContext(query, context) {
+function updateContext(userId, context) {
     return new Promise(function (resolve, reject) {
-        TelegramUser.findOneAndUpdate(query, {
+        TelegramUser.findOneAndUpdate({userId: userId}, {
             $set: {
                 context: context
             }
