@@ -33,6 +33,19 @@ function find(query) {
     });
 }
 
+
+function findAll(query) {
+    return new Promise(function (resolve, reject) {
+        TelegramUser.find(query, function (err, user) {
+            if(err) {
+                reject(err);
+            }
+
+            resolve(user);
+        });
+    });
+}
+
 function updateUserProfile(query, profileData) {
     return new Promise(function (resolve, reject) {
         TelegramUser.findOneAndUpdate(query, {
@@ -45,6 +58,14 @@ function updateUserProfile(query, profileData) {
             }
             resolve(updatedUser)
         });
+    });
+}
+
+function getTwitterUnverifiedUsers() {
+    return findAll({'user_data.twitterVerifyStatus' : 'not-verified'}).then(function (users) {
+        return Promise.resolve(users);
+    }).catch(function (reason) {
+        return;
     });
 }
 
@@ -94,3 +115,4 @@ module.exports.find = find;
 module.exports.createUpdateUser = createUpdateUser;
 module.exports.updateContext = updateContext;
 module.exports.updateUserData = updateUserData;
+module.exports.getTwitterUnverifiedUsers = getTwitterUnverifiedUsers;

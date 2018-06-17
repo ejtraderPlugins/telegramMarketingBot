@@ -10,6 +10,7 @@
     "request": "^2.87.0",
     "url-template": "^2.0.8",
     "request-promise": "^4.2.2",
-    "fuse.js": "^3.2.1"
+    "fuse.js": "^3.2.1",
+    "oauth": "^0.9.14"
   }
 }

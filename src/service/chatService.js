@@ -63,6 +63,7 @@ ChatService.prototype.run = function () {
         });
     } else if (self.context.askedRule === 'askedTwitter') {
         self.opts.user.user_data.twitterUserName = self.opts.message;
+        self.opts.user.user_data.twitterVerifyStatus = 'not-verified';
         return telegramuserModel.updateUserData(self.opts.user.userId, self.opts.user.user_data).then(function () {
             return self.checkTwitterFollowers().then(function (success) {
                 if (success) {
@@ -165,44 +166,6 @@ ChatService.prototype.checkTwitterFollowers = function (cursor) {
     var self = this;
     self.opts.message = 'success';
     return Promise.resolve(true);
-    if (!cursor) {
-        cursor = -1;
-    }
-    var reqOptions = {
-        url: config.twitter.get_followers_api + "?cursor=" + cursor,
-        headers: {
-          "Authorization": config.twitter.token
-        },
-        method: "get"
-    };
-
-    return request(reqOptions).then(function (res) {
-        if (!res.users || res.users.length < 1) {
-            return Promise.resolve(true);
-        } else {
-            var userFound = false;
-            _.map(res.users, function (user) {
-                if (user.screen_name.toLowerCase() === self.opts.message) {
-                    userFound = true;
-                    return false;
-                }
-            });
-            if (userFound) {
-                return Promise.resolve(true);
-            } else if (res.next_cursor) {
-                return self.checkTwitterFollowers(res.next_cursor);
-            } else {
-                return Promise.resolve(true);
-            }
-        }
-    }, function (err) {
-        console.error(err.stack);
-        return Promise.resolve(true);
-    })
-        .catch(function (err) {
-            console.error(err.stack);
-            return Promise.resolve(true);
-        });
 };
 
 ChatService.prototype.checkTelegramGroup = function () {

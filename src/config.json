@@ -7,15 +7,17 @@
   "credentials": {
     "apiToken": "560311453:AAGagomUU2FfeU5qcpUNfIP7J5PX4wdkF-M",
     "name": "mediumbt_bot",
-    "groupId": "209670141"
+    "groupId": "208155988"
   },
   "facebook": {
     "page_id": "",
     "pageToken": ""
   },
   "twitter": {
-    "get_followers_api": "https://api.twitter.com/1.1/followers/list.json",
-    "token": "XYZ"
+    "consumerKey": "wUvaUT46iHTpwbAEOSNPqbr1g",
+    "consumerSecret": "5va8AjWh5NNRXDHMgnlvsHV9swo0PFBrP1pR5Y9zdBfj4qAxkl",
+    "accessToken": "105143672-z2glgZHpAhx5AtxuBGsAZtBmFiOKoFKOWbInOSs4",
+    "accessTokenSecret": "ZKRmjABMQ1duMYNYAXs1GVsi21Yu7mwQmShkcdOl7qpXM"
   },
   "API": {
     "webhookpath": "/webhook",
