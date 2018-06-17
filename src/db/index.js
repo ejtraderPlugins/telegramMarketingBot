@@ -9,7 +9,8 @@ var telegramUserSchema = new Schema({
     userId: { type: String, required: true, unique: true },
     profileData: Schema.Types.Mixed,
     context: Schema.Types.Mixed,
-    created_at: { type: Date, default: Date.now }
+    created_at: { type: Date, default: Date.now },
+    user_data: Schema.Types.Mixed
 });
 
 var TelegramUser = mongoose.model('TelegramUser', telegramUserSchema);

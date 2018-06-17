@@ -1,5 +1,5 @@
 {
-  "host": "https://e5e4faa6.ngrok.io",
+  "host": "https://02a907bb.ngrok.io",
   "port": 3004,
   "db": {
     "url": "mongodb://0.0.0.0/botjet"
@@ -36,6 +36,10 @@
     "SORRY_FOLLOW": {
       "en": "Sorry! I don't find that you are following us. ",
       "ko": "죄송합니다! 나는 당신이 우리를 따르고 있다는 것을 알지 못합니다."
+    },
+    "END_OF_CAMPAIGN": {
+      "en": "Please use /start to re-start the campaign again.",
+      "ko": "/start 를 사용하여 캠페인을 다시 시작하십시오."
     }
   },
   "rules": {

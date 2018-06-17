@@ -18,6 +18,9 @@ ChatService.prototype.run = function () {
     if (!self.context) {
         self.context = {};
     }
+    if(!self.opts.user.user_data) {
+        self.opts.user.user_data = {}
+    }
 
     var initialRuleSearch = fuzzySearch(config.rules.languageSelection.keywords, self.opts.message.toLowerCase());
 
@@ -47,20 +50,20 @@ ChatService.prototype.run = function () {
             return telegramAPI.sendMessage(config.rules.languageSelection.message, self.opts.user);
         }
     } else if (self.context.askedRule === 'walletAddress') {
-        self.opts.user.profileData.walletAddress = self.opts.message;
-        return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
+        self.opts.user.user_data.walletAddress = self.opts.message;
+        return telegramuserModel.updateUserData(self.opts.user.userId, self.opts.user.user_data).then(function () {
             self.opts.message = "success";
             return self.gotoNextRule();
         });
     } else if (self.context.askedRule === 'askedFacebook') {
-        self.opts.user.profileData.facebookUserName = self.opts.message;
-        return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
+        self.opts.user.user_data.facebookUserName = self.opts.message;
+        return telegramuserModel.updateUserData(self.opts.user.userId, self.opts.user.user_data).then(function () {
             self.opts.message = 'success';
             return self.gotoNextRule();
         });
     } else if (self.context.askedRule === 'askedTwitter') {
-        self.opts.user.profileData.twitterUserName = self.opts.message;
-        return telegramuserModel.createUpdateUser(self.opts.user).then(function () {
+        self.opts.user.user_data.twitterUserName = self.opts.message;
+        return telegramuserModel.updateUserData(self.opts.user.userId, self.opts.user.user_data).then(function () {
             return self.checkTwitterFollowers().then(function (success) {
                 if (success) {
                     return self.gotoNextRule();
@@ -118,7 +121,17 @@ ChatService.prototype.askAgain = function () {
 ChatService.prototype.gotoNextRule = function () {
     var self = this;
 
+    if(!config.rules[self.context.askedRule]) {
+        return telegramAPI.sendMessage({
+            "text": "Sorry I don't know that! Please use /start to start the campaign.", "parse_mode": "HTML"
+        }, self.opts.user);
+    }
+
     var nextConditions = config.rules[self.context.askedRule].next;
+
+    if(!nextConditions) {
+        return telegramAPI.sendMessage({"text": config.messages.END_OF_CAMPAIGN[self.context.language], "parse_mode": "HTML"}, self.opts.user);
+    }
 
     var nextCndMatch = fuzzySearch(_.keys(nextConditions), self.opts.message);
     var nextRule = null;

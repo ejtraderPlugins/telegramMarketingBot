@@ -74,7 +74,23 @@ function updateContext(userId, context) {
     });
 }
 
+function updateUserData(userId, user_data) {
+    return new Promise(function (resolve, reject) {
+        TelegramUser.findOneAndUpdate({userId: userId}, {
+            $set: {
+                user_data: user_data
+            }
+        }, function(err, profiles) {
+            if (err) {
+                reject(err);
+            }
+            resolve(profiles)
+        });
+    });
+}
+
 module.exports.createNew = createNew;
 module.exports.find = find;
 module.exports.createUpdateUser = createUpdateUser;
 module.exports.updateContext = updateContext;
+module.exports.updateUserData = updateUserData;
