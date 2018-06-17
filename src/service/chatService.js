@@ -221,7 +221,7 @@ ChatService.prototype.checkTelegramGroup = function () {
             res = JSON.parse(res);
         } catch(e) {
         }
-        if(res.ok && res.result && res.result.user && res.result.user.id) {
+        if(res.ok && res.result && res.result.user && res.result.user.id && res.result.status !== 'left') {
             return Promise.resolve(true);
         }
         return Promise.resolve();
