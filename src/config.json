@@ -27,21 +27,52 @@
     "sendTypingIndication": "https://api.telegram.org/bot{token}/sendChatAction",
     "getChatMember": "https://api.telegram.org/bot{token}/getChatMember?chat_id=-{groupId}&user_id={userId}"
   },
-  "languages": [{
-    "keywords": ["english", "en", "eng"],
-    "key": "en"
-  },{
-    "keywords": ["korean", "ko", "kor"],
-    "key": "ko"
-  }],
+  "languages": [
+    {
+      "keywords": [
+        "english",
+        "en",
+        "eng"
+      ],
+      "key": "en"
+    },
+    {
+      "keywords": [
+        "korean",
+        "ko",
+        "kor"
+      ],
+      "key": "ko"
+    },
+    {
+      "keywords": [
+        "Japanese",
+        "ja",
+        "japan"
+      ],
+      "key": "ja"
+    },
+    {
+      "keywords": [
+        "Chinese",
+        "zh",
+        "china"
+      ],
+      "key": "zh"
+    }
+  ],
   "messages": {
     "SORRY_FOLLOW": {
       "en": "Sorry! I don't find that you are following us. ",
-      "ko": "죄송합니다! 나는 당신이 우리를 따르고 있다는 것을 알지 못합니다."
+      "ko": "죄송합니다! 나는 당신이 우리를 따르고 있다는 것을 알지 못합니다.",
+      "ja": "ごめんなさい！ あなたが私たちに従っていることは分かりません。",
+      "zh": "抱歉! 我没有发现你在跟踪我们。"
     },
     "END_OF_CAMPAIGN": {
       "en": "Please use /start to re-start the campaign again.",
-      "ko": "/start 를 사용하여 캠페인을 다시 시작하십시오."
+      "ko": "/start 를 사용하여 캠페인을 다시 시작하십시오.",
+      "ja": "/start を使用して再度キャンペーンを再開してください。",
+      "zh": "请使用/开始重新开始活动。"
     }
   },
   "rules": {
@@ -50,18 +81,40 @@
         "text": "Hi 😀, I'm Mediapedia Referral Bot. Join and Earn tokens. Before proceeding further please choose your language 🌍",
         "reply_markup": {
           "inline_keyboard": [
-            [{
-              "text": "English 🇺🇸",
-              "callback_data": "en"
-            }],
-            [{
-              "text": "Korea 🇰🇷",
-              "callback_data": "ko"
-            }]
+            [
+              {
+                "text": "English 🇺🇸",
+                "callback_data": "en"
+              }
+            ],
+            [
+              {
+                "text": "Korea 🇰🇷",
+                "callback_data": "ko"
+              }
+            ],
+            [
+              {
+                "text": "Japanese 🇯🇵",
+                "callback_data": "ja"
+              }
+            ],
+            [
+              {
+                "text": "Chinese 🇨🇳",
+                "callback_data": "zh"
+              }
+            ]
           ]
         }
       },
-      "keywords": ["start", "restart", "change language", "cancel", "reset"],
+      "keywords": [
+        "start",
+        "restart",
+        "change language",
+        "cancel",
+        "reset"
+      ],
       "next": {
         "onSelection": "languageSelectionRead"
       }
@@ -73,11 +126,23 @@
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "Blockchain 추천 프로그램에서 Medipedia에 오신 것을 환영합니다!\n초대하고 초대 한 각 친구에게 500 MEP 토큰, 최대 $ $ 상당의 토큰 $$$$ 1 인당 100 명의 친구에게 제한된 초대장을드립니다.\n\n",
+          "text": "블록 체인 추천 프로그램에서 <b>Medipedia</b> 에 오신 것을 환영합니다!\n초대하고 초대 한 각 친구에게 500 MEP 토큰, 최대 $ $ 상당의 토큰 $$$$ 1 인당 100 명의 친구에게 제한된 초대장을드립니다.\n\n",
+          "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "ブロックチェーン 紹介プログラムの<b> Medipedia </b>へようこそ！\n招待する友人ごとにトークンを500ドル、トークンを100ドルまで払いましょう。 \n \n <i> 100人の友人限定招待状</i> \n \n",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "在区块链推荐计划中欢迎<b> Medipedia </b>！\n为您邀请的每位朋友赚取<b> 500 MEP </b>代币，最多可获得价值100美元的代币💰。 \n \n <i>每位邀请限制在100位朋友中。</i> \n \n",
           "parse_mode": "HTML"
         }
       },
-      "keywords": ["hi", "hello", "help"],
+      "keywords": [
+        "hi",
+        "hello",
+        "help"
+      ],
       "next": {
         "default": "joinTelegramGroup"
       }
@@ -89,14 +154,18 @@
           "parse_mode": "HTML",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "Join our Telegram group",
-                "url": "https://web.telegram.org/#/im?p=@BotFather"
-              }],
-              [{
-                "text": "I Joined",
-                "callback_data": "joined"
-              }]
+              [
+                {
+                  "text": "Join our Telegram group",
+                  "url": "https://web.telegram.org/#/im?p=@BotFather"
+                }
+              ],
+              [
+                {
+                  "text": "I Joined",
+                  "callback_data": "joined"
+                }
+              ]
             ]
           }
         },
@@ -105,19 +174,65 @@
           "parse_mode": "HTML",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "우리의 전보 그룹에 가입하십시오",
-                "url": "https://web.telegram.org/#/im?p=@BotFather"
-              }],
-              [{
-                "text": "난 가입 했어요",
-                "callback_data": "joined"
-              }]
+              [
+                {
+                  "text": "우리의 전보 그룹에 가입하십시오",
+                  "url": "https://web.telegram.org/#/im?p=@BotFather"
+                }
+              ],
+              [
+                {
+                  "text": "난 가입 했어요",
+                  "callback_data": "joined"
+                }
+              ]
+            ]
+          }
+        },
+        "ja": {
+          "text": "<b>テレグラム</b> グループに参加して、100のMEPトークンを今すぐ獲得してください。",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "テレグラムグループに参加する",
+                  "url": "https://web.telegram.org/#/im?p=@BotFather"
+                }
+              ],
+              [
+                {
+                  "text": "私は参加しました",
+                  "callback_data": "joined"
+                }
+              ]
+            ]
+          }
+        },
+        "zh": {
+          "text": "加入我们的 <b>电报</b> 小组，现在获得100个MEP代币。",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "加入我们的电报组",
+                  "url": "https://web.telegram.org/#/im?p=@BotFather"
+                }
+              ],
+              [
+                {
+                  "text": "我加入",
+                  "callback_data": "joined"
+                }
+              ]
             ]
           }
         }
       },
-      "keywords": ["telegram"],
+      "keywords": [
+        "telegram"
+      ],
       "next": {
         "joined": "joinTelegramGroupSuccess"
       }
@@ -130,6 +245,14 @@
         },
         "ko": {
           "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.\n",
+          "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "<b>おめでとうございます</b>。\nあなたは<b> 100 MEP </b>のトークンを獲得しました。",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "<b>恭喜🎊</b>。\n您已获得<b> 100 MEP </b>令牌。",
           "parse_mode": "HTML"
         }
       },
@@ -145,14 +268,18 @@
           "parse_mode": "HTML",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "Follow our Twitter",
-                "url": "https://twitter.com/Medipedia_io"
-              }],
-              [{
-                "text": "I followed",
-                "callback_data": "followed"
-              }]
+              [
+                {
+                  "text": "Follow our Twitter",
+                  "url": "https://twitter.com/Medipedia_io"
+                }
+              ],
+              [
+                {
+                  "text": "I followed",
+                  "callback_data": "followed"
+                }
+              ]
             ]
           }
         },
@@ -161,19 +288,65 @@
           "parse_mode": "HTML",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "우리의 트위터 따라",
-                "url": "https://twitter.com/Medipedia_io"
-              }],
-              [{
-                "text": "나는 따라 갔다.",
-                "callback_data": "followed"
-              }]
+              [
+                {
+                  "text": "우리의 트위터 따라",
+                  "url": "https://twitter.com/Medipedia_io"
+                }
+              ],
+              [
+                {
+                  "text": "나는 따라 갔다.",
+                  "callback_data": "followed"
+                }
+              ]
+            ]
+          }
+        },
+        "ja": {
+          "text": "さて、<b> Twitter </b>で私たちのフォローして、より多くのトークンを獲得してください。",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "Twitterに従ってください",
+                  "url": "https://twitter.com/Medipedia_io"
+                }
+              ],
+              [
+                {
+                  "text": "私はついていきます",
+                  "callback_data": "followed"
+                }
+              ]
+            ]
+          }
+        },
+        "zh": {
+          "text": "现在，请在<b> Twitter </b>上关注我们，并获得更多的代币。",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "关注我们的Twitter",
+                  "url": "https://twitter.com/Medipedia_io"
+                }
+              ],
+              [
+                {
+                  "text": "我跟着",
+                  "callback_data": "followed"
+                }
+              ]
             ]
           }
         }
       },
-      "keywords": ["twitter"],
+      "keywords": [
+        "twitter"
+      ],
       "next": {
         "followed": "askedTwitter"
       }
@@ -181,11 +354,19 @@
     "askedTwitter": {
       "message": {
         "en": {
-          "text": "Please provide your twitter username for verification.",
+          "text": "Please provide your twitter @screen_name for verification.",
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "확인을 위해 Twitter 사용자 이름을 입력하십시오.",
+          "text": "확인을 위해 트위터 @screen_name을 제공해주십시오.",
+          "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "確認のためtwitter @screen_nameを入力してください。",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "请提供您的twitter @screen_name进行验证。",
           "parse_mode": "HTML"
         }
       },
@@ -203,6 +384,14 @@
         "ko": {
           "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.\n",
           "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "<b>素晴らしい</b>。\nあなたは別の<b> 100 MEP </b>トークンを獲得しました。",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "<b>很棒</b>。\n您已经获得了另外<b> 100个MEP </b>标记。",
+          "parse_mode": "HTML"
         }
       },
       "keywords": [],
@@ -217,14 +406,18 @@
           "parse_mode": "HTML",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "Follow our Facebook Page",
-                "url": "https://facebook.com/Medipedia_io"
-              }],
-              [{
-                "text": "I followed",
-                "callback_data": "followed"
-              }]
+              [
+                {
+                  "text": "Follow our Facebook Page",
+                  "url": "https://facebook.com/Medipedia_io"
+                }
+              ],
+              [
+                {
+                  "text": "I followed",
+                  "callback_data": "followed"
+                }
+              ]
             ]
           }
         },
@@ -233,19 +426,65 @@
           "parse_mode": "HTML",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "우리의 Facebook 페이지를 따르십시오",
-                "url": "https://facebook.com/Medipedia_io"
-              }],
-              [{
-                "text": "나는 따라 갔다.",
-                "callback_data": "followed"
-              }]
+              [
+                {
+                  "text": "우리의 Facebook 페이지를 따르십시오",
+                  "url": "https://facebook.com/Medipedia_io"
+                }
+              ],
+              [
+                {
+                  "text": "나는 따라 갔다.",
+                  "callback_data": "followed"
+                }
+              ]
+            ]
+          }
+        },
+        "ja": {
+          "text": "さて、<b> Facebook </b>をフォローしてトークンを獲得しましょう。",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "私たちのFacebookページに従ってください",
+                  "url": "https://facebook.com/Medipedia_io"
+                }
+              ],
+              [
+                {
+                  "text": "私はついていきます",
+                  "callback_data": "followed"
+                }
+              ]
+            ]
+          }
+        },
+        "zh": {
+          "text": "现在，在<b> Facebook上关注我们</b>并获得更多的代币。",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "关注我们的Facebook页面",
+                  "url": "https://facebook.com/Medipedia_io"
+                }
+              ],
+              [
+                {
+                  "text": "我跟着",
+                  "callback_data": "followed"
+                }
+              ]
             ]
           }
         }
       },
-      "keywords": ["facebook"],
+      "keywords": [
+        "facebook"
+      ],
       "next": {
         "followed": "askedFacebook"
       }
@@ -253,11 +492,19 @@
     "askedFacebook": {
       "message": {
         "en": {
-          "text": "Please provide your facebook username for verification.",
+          "text": "Please provide your facebook account link for verification.",
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "확인을 위해 페이스 북 사용자 이름을 입력하십시오.",
+          "text": "확인을 위해 페이스 북 계정 링크를 제공해주십시오.",
+          "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "確認のためにFacebookアカウントのリンクをご提供ください。",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "请提供您的Facebook帐户链接进行验证。",
           "parse_mode": "HTML"
         }
       },
@@ -275,6 +522,14 @@
         "ko": {
           "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.\n",
           "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "<b>素晴らしい</b>。\nあなたは別の<b> 100 MEP </ b>トークンを獲得しました。",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "<b>很棒</b>。\n您已经获得了另外<b> 100个MEP </ b>标记。",
+          "parse_mode": "HTML"
         }
       },
       "keywords": [],
@@ -289,14 +544,18 @@
           "parse_mode": "HTML",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "Join our website",
-                "url": "http://medipedia.io/membership/signup/"
-              }],
-              [{
-                "text": "I joined",
-                "callback_data": "joined"
-              }]
+              [
+                {
+                  "text": "Join our website",
+                  "url": "http://medipedia.io/membership/signup/"
+                }
+              ],
+              [
+                {
+                  "text": "I joined",
+                  "callback_data": "joined"
+                }
+              ]
             ]
           }
         },
@@ -305,19 +564,65 @@
           "parse_mode": "HTML",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "웹 사이트 가입",
-                "url": "http://medipedia.io/membership/signup/"
-              }],
-              [{
-                "text": "난 가입 했어요",
-                "callback_data": "joined"
-              }]
+              [
+                {
+                  "text": "웹 사이트 가입",
+                  "url": "http://medipedia.io/membership/signup/"
+                }
+              ],
+              [
+                {
+                  "text": "난 가입 했어요",
+                  "callback_data": "joined"
+                }
+              ]
+            ]
+          }
+        },
+        "ja": {
+          "text": "次に、参加する<b> Medipedia </b>のウェブサイト",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "私たちのウェブサイトに参加する",
+                  "url": "http://medipedia.io/membership/signup/"
+                }
+              ],
+              [
+                {
+                  "text": "私は参加しました",
+                  "callback_data": "joined"
+                }
+              ]
+            ]
+          }
+        },
+        "zh": {
+          "text": "接下来，加入<b> Medipedia </b>网站",
+          "parse_mode": "HTML",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "加入我们的网站",
+                  "url": "http://medipedia.io/membership/signup/"
+                }
+              ],
+              [
+                {
+                  "text": "我加入",
+                  "callback_data": "joined"
+                }
+              ]
             ]
           }
         }
       },
-      "keywords": ["medipedia"],
+      "keywords": [
+        "medipedia"
+      ],
       "next": {
         "joined": "joinSiteSuccess"
       }
@@ -330,6 +635,14 @@
         },
         "ko": {
           "text": "<b>치하 🎊</b>.\n100 개의 MEP 토큰을 받았습니다.\n",
+          "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "<b>素晴らしい</b>。\nあなたは別の<b> 100 MEP </ b>トークンを獲得しました。",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "<b>很棒</b>。\n您已经获得了另外<b> 100个MEP </ b>标记。",
           "parse_mode": "HTML"
         }
       },
@@ -347,6 +660,14 @@
         "ko": {
           "text": "Ethereum 지갑 주소를 입력하십시오.",
           "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "Ethereumのウォレットアドレスを入力してください。",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "请提供以太坊钱包地址。",
+          "parse_mode": "HTML"
         }
       },
       "keywords": [],
@@ -357,11 +678,19 @@
     "walletAddressSuccess": {
       "message": {
         "en": {
-          "text": "Good job! You’ve earned 400 MEP tokens",
+          "text": "Good job! You’ve earned 400 MEP tokens. \n\n <i>Tokens will be credited once the verification is done.</i>",
           "parse_mode": "HTML"
         },
         "ko": {
-          "text": "잘 했어! 400 MEP 토큰을 받았습니다.",
+          "text": "잘 했어! 400 MEP 토큰을 받았습니다. \n \n <i> 확인이 완료되면 토큰이 적립됩니다. </i>",
+          "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "よくやった！ あなたは400のMEPトークンを獲得しました。 \n \n <i>検証が完了するとトークンに入金されます。</i>",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "做得好！ 你已经获得了400个MEP代币。 \n \n <i>验证完成后，令牌将被记入帐户。</i>",
           "parse_mode": "HTML"
         }
       },
@@ -376,10 +705,12 @@
           "text": "Finally! Click on below button to get your referral link",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "Get my referral link",
-                "callback_data": "getReferral"
-              }]
+              [
+                {
+                  "text": "Get my referral link",
+                  "callback_data": "getReferral"
+                }
+              ]
             ]
           }
         },
@@ -387,10 +718,38 @@
           "text": "마침내! 추천 링크를 받으려면 아래 버튼을 클릭하십시오.",
           "reply_markup": {
             "inline_keyboard": [
-              [{
-                "text": "내 추천 링크 가져 오기",
-                "callback_data": "getReferral"
-              }]
+              [
+                {
+                  "text": "내 추천 링크 가져 오기",
+                  "callback_data": "getReferral"
+                }
+              ]
+            ]
+          }
+        },
+        "ja": {
+          "text": "最後に！ 紹介リンクを取得するには、下のボタンをクリックしてください",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "紹介リンクを取得する",
+                  "callback_data": "getReferral"
+                }
+              ]
+            ]
+          }
+        },
+        "zh": {
+          "text": "最后！ 点击下面的按钮来获取您的推荐链接",
+          "reply_markup": {
+            "inline_keyboard": [
+              [
+                {
+                  "text": "获取我的推荐链接",
+                  "callback_data": "getReferral"
+                }
+              ]
             ]
           }
         }
@@ -409,9 +768,19 @@
         "ko": {
           "text": "우수한! 여기에 귀하의 링크가 있습니다 : {referral_link}\n\n 페이스 북, 트위터 그리고 다른 곳에서 보상을 얻을 수있는 곳에서 공유하십시오! 조인하는 모든 친구가 합계에 100 MEP를 추가합니다.",
           "parse_mode": "HTML"
+        },
+        "ja": {
+          "text": "優れた！ あなたのリンクは次のとおりです：{referral_link} \n \n FacebookやTwitterなどで、あなたが報酬を得ることができる場所ならどこでも共有してください！ 参加したすべての友人はあなたの合計に100のMEPを追加します",
+          "parse_mode": "HTML"
+        },
+        "zh": {
+          "text": "优秀！ 以下是您的链接：{referral_link} \n \n将其分享到Facebook，Twitter和其他任何地方以获得奖励！ 每个加入的朋友都会为你的总数增加100个MEP",
+          "parse_mode": "HTML"
         }
       },
-      "keywords": ["get_referral_link"],
+      "keywords": [
+        "get_referral_link"
+      ],
       "end_rule": true
     }
   }
