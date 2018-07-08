@@ -10,6 +10,8 @@ var _ = require('lodash');
 var telegramAPI = require('./telegramAPI').getInstance();
 var app = express();
 
+var REFERRAL_REGEX = /\/start\s(.*)/g;
+
 var oauth = require('oauth');
 var twitterConsumer = new oauth.OAuth(
     "https://twitter.com/oauth/request_token", "https://twitter.com/oauth/access_token",
@@ -47,21 +49,42 @@ app.post('/webhook', function (req, res) {
         return res.sendStatus(200);
     }
 
-    return telegramUserModel.createUpdateUser({
-        userId: senderId,
-        profileData: profileData
-    }).then(function (user) {
-        if (!user) {
-            return res.sendStatus(400);
-        }
+    var referredDataP = Promise.resolve();
+    var match = REFERRAL_REGEX.exec(message);
+    if(match && match.length > 1 && match[1] && (""+senderId !== match[1])) {
+        message = "/start";
+        referredDataP = telegramUserModel.find({userId: match[1]}).then(function (user) {
+           if(user && user.profileData && !user.referredData) {
+               return Promise.resolve({
+                   id: match[1],
+                   name: user.profileData.first_name + (user.profileData.last_name? (" " + user.profileData.last_name): "")
+               });
+           } else {
+               return Promise.resolve();
+           }
+        });
+    }
 
-        chatService.getInstance({
-            user: user,
-            message: message,
-            event: event
-        }).run();
+    return referredDataP.then(function(referredData){
+        telegramUserModel.createUpdateUser({
+            userId: senderId,
+            profileData: profileData,
+            referredData: referredData
+        }).then(function (user) {
+            if (!user) {
+                return res.sendStatus(400);
+            }
+            if(Array.isArray(user)) {
+                user = user[0];
+            }
+            chatService.getInstance({
+                user: user,
+                message: message,
+                event: event
+            }).run();
 
-        return res.sendStatus(200);
+            return res.sendStatus(200);
+        });
     });
 });
 

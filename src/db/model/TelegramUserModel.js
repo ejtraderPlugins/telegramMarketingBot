@@ -46,13 +46,17 @@ function findAll(query) {
     });
 }
 
-function updateUserProfile(query, profileData) {
+function updateUserProfile(query, profileData, referredData) {
     return new Promise(function (resolve, reject) {
-        TelegramUser.findOneAndUpdate(query, {
+        var updateSet = {
             $set: {
                 profileData: profileData
             }
-        }, function(err, updatedUser) {
+        };
+        if(referredData) {
+           updateSet.$set.referredData = referredData;
+        }
+        TelegramUser.findOneAndUpdate(query, updateSet, function(err, updatedUser) {
             if (err) {
                 reject(err);
             }
@@ -72,7 +76,7 @@ function getTwitterUnverifiedUsers() {
 function createUpdateUser(data) {
     return find({userId: data.userId}).then(function (user) {
         if(user) {
-            return updateUserProfile({userId: data.userId}, data.profileData);
+            return updateUserProfile({userId: data.userId}, data.profileData, data.referredData);
         }
         return createNew(data);
     }).catch(function (reason) {
