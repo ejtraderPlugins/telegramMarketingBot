@@ -43,7 +43,7 @@ ChatService.prototype.run = function () {
         if (language) {
             self.context.language = language;
             self.context.askedRule = 'languageSelectionRead';
-            var message = config.rules.languageSelectionRead.message;
+            var message = _.cloneDeep(config.rules.languageSelectionRead.message);
             if(self.opts.user.referredData) {
                 message = message[1][language];
             } else {
@@ -126,7 +126,7 @@ ChatService.prototype.run = function () {
                 self.context.language = 'en';
             }
             self.context.askedRule = choosenRule;
-            var message = config.rules[choosenRule].message[self.context.language];
+            var message = _.cloneDeep(config.rules[choosenRule].message[self.context.language]);
             if (choosenRule === 'getReferral') {
                 message.text = message.text.replace(/{referral_link}/g,config.referralLinkPrefix + self.opts.user.userId);
             }
@@ -184,7 +184,7 @@ ChatService.prototype.gotoNextRule = function () {
     if (nextRule) {
         self.context.askedRule = nextRule;
         telegramuserModel.updateContext(self.opts.user.userId, self.context);
-        var message = config.rules[nextRule].message[self.context.language];
+        var message = _.cloneDeep(config.rules[nextRule].message[self.context.language]);
         if (nextRule === 'getReferral') {
             message.text = message.text.replace(/{referral_link}/g,config.referralLinkPrefix + self.opts.user.userId);
         }
