@@ -8,7 +8,7 @@ const request = require('request-promise');
 var format = require("string-template");
 var template = require('url-template');
 
-var EMAIL_REGEX = /[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?/g;
+var EMAIL_REGEX = /[^@]+@[^\.]+\..+/g;
 
 function ChatService(opts) {
     this.opts = opts;
